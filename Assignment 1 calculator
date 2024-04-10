@@ -1,1 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculator</title>
+<style>
+    body {
+        background-color: black;
+        font-family: Arial, sans-serif;
+    }
+
+    .calculator {
+        width: 300px;
+        margin: 50px auto;
+        border: 2px solid #333;
+        border-radius: 10px;
+        padding: 20px;
+        background-color: #222;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .screen {
+        width: 100%;
+        height: 60px;
+        background-color: #444;
+        color: white;
+        text-align: right;
+        font-size: 24px;
+        padding: 10px;
+        box-sizing: border-box;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+
+    .btn {
+        width: 60px;
+        height: 60px;
+        font-size: 20px;
+        margin: 5px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+        background-color: #555;
+    }
+
+    .btn.operator {
+        background-color: #ff9500;
+        color: white;
+    }
+
+    .btn.operator:hover {
+        background-color: #e67500;
+    }
+
+    .btn.equal {
+        background-color: #4cd964;
+        color: white;
+    }
+
+    .btn.equal:hover {
+        background-color: #43ac51;
+    }
+</style>
+</head>
+<body>
+
+<div class="calculator">
+    <div class="screen" id="screen">0</div>
+    <div>
+        <button class="btn" onclick="clearScreen()">C</button>
+        <button class="btn" onclick="appendToScreen('**')">^</button>
+        <button class="btn" onclick="appendToScreen('%')">%</button>
+        <button class="btn operator" onclick="appendToScreen('/')">÷</button>
+    </div>
+    <div>
+        <button class="btn" onclick="appendToScreen('7')">7</button>
+        <button class="btn" onclick="appendToScreen('8')">8</button>
+        <button class="btn" onclick="appendToScreen('9')">9</button>
+        <button class="btn operator" onclick="appendToScreen('*')">x</button>
+    </div>
+    <div>
+        <button class="btn" onclick="appendToScreen('4')">4</button>
+        <button class="btn" onclick="appendToScreen('5')">5</button>
+        <button class="btn" onclick="appendToScreen('6')">6</button>
+        <button class="btn operator" onclick="appendToScreen('-')">-</button>
+    </div>
+    <div>
+        <button class="btn" onclick="appendToScreen('1')">1</button>
+        <button class="btn" onclick="appendToScreen('2')">2</button>
+        <button class="btn" onclick="appendToScreen('3')">3</button>
+        <button class="btn operator" onclick="appendToScreen('+')">+</button>
+    </div>
+    <div>
+        <button class="btn" onclick="appendToScreen('0')">0</button>
+        <button class="btn" onclick="appendToScreen('.')">.</button>
+        <button class="btn equal" onclick="calculate()">=</button>
+        <button class="btn operator" onclick="calculateTrig('sin')">sin</button>
+    </div>
+    <div>
+        <button class="btn" onclick="calculateTrig('cos')">cos</button>
+        <button class="btn" onclick="calculateTrig('tan')">tan</button>
+        <button class="btn" onclick="calculateTrig('asin')">asin</button>
+        <button class="btn" onclick="calculateTrig('acos')">acos</button>
+    </div>
+</div>
+
+<script>
+    function clearScreen() {
+        document.getElementById('screen').innerText = '0';
+    }
+
+    function appendToScreen(value) {
+        var screen = document.getElementById('screen');
+        if (screen.innerText === '0' && value !== '.' && value !== '**' && value !== 'sin' && value !== 'cos' && value !== 'tan' && value !== 'asin' && value !== 'acos' && value !== '%') {
+            screen.innerText = '';
+        }
+        screen.innerText += value;
+    }
+
+    function calculate() {
+        var screen = document.getElementById('screen');
+        try {
+            var result = eval(screen.innerText);
+            if (isNaN(result) || !isFinite(result)) {
+                throw new Error('Error');
+            }
+            screen.innerText = result;
+        } catch (error) {
+            screen.innerText = 'Error';
+        }
+    }
+
+    function calculateTrig(operation) {
+        var screen = document.getElementById('screen');
+        try {
+            var value = parseFloat(screen.innerText);
+            var result = Math[operation](value * (Math.PI / 180));
+            if (isNaN(result) || !isFinite(result)) {
+                throw new Error('Error');
+            }
+            screen.innerText = result;
+        } catch (error) {
+            screen.innerText = 'Error';
+        }
+    }
+</script>
+
+</body>
+</html>
 
